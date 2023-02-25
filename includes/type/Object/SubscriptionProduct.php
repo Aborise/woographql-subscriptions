@@ -16,9 +16,12 @@ use GraphQLRelay\Relay;
 use WPGraphQL\AppContext;
 use WPGraphQL\WooCommerce\Data\Factory;
 use WPGraphQL\WooCommerce\Data\Connection\Product_Connection_Resolver;
+use WPGraphQL\WooCommerce\Data\Connection\Variation_Attribute_Connection_Resolver;
+use WPGraphQL\WooCommerce\Connection\Variation_Attributes;
 use WPGraphQL\WooCommerce\Type\WPInterface\Product;
 use WPGraphQL\WooCommerce\Type\WPObject\Product_Types;
 use WPGraphQL\WooCommerce\Connection\Products;
+use WPGraphQL\Data\Connection\PostObjectConnectionResolver;
 
 /**
  * Class Product_Types
@@ -34,6 +37,7 @@ class SubscriptionProduct {
 		self::register_subscription_variable_product_type();
 		self::register_subscription_variation_type();
 		self::register_variation_connection();
+		self::register_variation_attribute_connection();
 	}
 
 	/**
@@ -290,7 +294,7 @@ class SubscriptionProduct {
 					'toType'        => 'SubscriptionProductVariation',
 					'fromFieldName' => 'variations',
 					'resolve'       => function( $source, array $args, AppContext $context, ResolveInfo $info ) {
-						$resolver = new Product_Connection_Resolver( $source, $args, $context, $info );
+						$resolver = new PostObjectConnectionResolver( $source, $args, $context, $info, 'product' );
 
 						$resolver->set_query_arg( 'post_parent', $source->ID );
 						$resolver->set_query_arg( 'post_type', 'product_variation' );
@@ -307,5 +311,26 @@ class SubscriptionProduct {
 			)
 		);
 	}
+
+	/**
+	 * Register connection from SubscriptionProductVariation to VariationAttribute
+	 */
+	private static function register_variation_attribute_connection() {
+        // From SubscriptionProductVariation to VariationAttribute.
+        register_graphql_connection(
+            Variation_Attributes::get_connection_config(
+                array(
+                    'fromType'      => 'SubscriptionProductVariation',
+                    'toType'        => 'VariationAttribute',
+                    'fromFieldName' => 'attributes',
+                    'resolve'       => function( $source, array $args, AppContext $context, ResolveInfo $info ) {
+                        $resolver = new Variation_Attribute_Connection_Resolver();
+
+                        return $resolver->resolve( $source, $args, $context, $info );
+                    },
+                )
+            )
+        );
+    }
 
 }
