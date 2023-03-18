@@ -67,7 +67,7 @@ class SubscriptionProduct {
 	 * Returns shared fields related to subscriptions
 	 *
 	 * @param array $fields  Fields array used to overwrite any subscriptions fields.
-	 * @return void
+	 * @return array
 	 */
 	public static function get_subscription_fields( $fields = array() ) {
 		return array_merge(
@@ -90,6 +90,24 @@ class SubscriptionProduct {
 						return ! empty( $add_to_cart_text ) ? $add_to_cart_text : null;
 					}
 				),
+				'freeTrial' => array(
+                    'type'        => 'String',
+                    'description' => __( 'Subscription free trial', 'woographql-subscriptions'),
+                    'resolve'     => function( $source ) {
+                        $free_trial = \WC_Subscriptions_Product::get_trial_length( $source );
+
+                        return ! empty( $free_trial ) ? $free_trial : null;
+                    },
+                ),
+                'trialPeriod' => array(
+                    'type'        => 'String',
+                    'description' => __( 'Subscription trial period', 'woographql-subscriptions'),
+                    'resolve'     => function( $source ) {
+                        $trial_period = \WC_Subscriptions_Product::get_trial_period( $source );
+
+                        return ! empty( $trial_period ) ? $trial_period : null;
+                    },
+                ),
 			),
 			$fields
 		);

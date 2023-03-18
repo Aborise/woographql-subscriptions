@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'WPGraphQL\\WooCommerce_Subscriptions\\Type\\WPEnum\\DisplayContext' => $baseDir . '/includes/type/Enum/DisplayContext.php',
     'WPGraphQL\\WooCommerce_Subscriptions\\Type\\WPEnum\\PricingPropertiesEnum' => $baseDir . '/includes/type/Enum/PricingPropertiesEnum.php',
     'WPGraphQL\\WooCommerce_Subscriptions\\Type\\WPObject\\SubscriptionProduct' => $baseDir . '/includes/type/Object/SubscriptionProduct.php',

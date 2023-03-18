@@ -21,6 +21,7 @@ class ComposerStaticInit42fed052959956494622a4b77e9e6832
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'WPGraphQL\\WooCommerce_Subscriptions\\Type\\WPEnum\\DisplayContext' => __DIR__ . '/../..' . '/includes/type/Enum/DisplayContext.php',
         'WPGraphQL\\WooCommerce_Subscriptions\\Type\\WPEnum\\PricingPropertiesEnum' => __DIR__ . '/../..' . '/includes/type/Enum/PricingPropertiesEnum.php',
         'WPGraphQL\\WooCommerce_Subscriptions\\Type\\WPObject\\SubscriptionProduct' => __DIR__ . '/../..' . '/includes/type/Object/SubscriptionProduct.php',
