@@ -90,6 +90,15 @@ class SubscriptionProduct {
 						return ! empty( $add_to_cart_text ) ? $add_to_cart_text : null;
 					}
 				),
+				'period' => array(
+                    'type'        => 'String',
+                    'description' => __( 'Subscription period', 'woographql-subscriptions'),
+                    'resolve'     => function( $source ) {
+                        $period = \WC_Subscriptions_Product::get_period( $source );
+
+                        return ! empty( $period ) ? $period : null;
+                    },
+                ),
 				'freeTrial' => array(
                     'type'        => 'String',
                     'description' => __( 'Subscription free trial', 'woographql-subscriptions'),
